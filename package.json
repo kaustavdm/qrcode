@@ -1,0 +1,47 @@
+{
+  "name": "qrcode",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run icons:build && vite build",
+    "preview": "vite preview",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "icons:build": "tsx scripts/build-icon-manifest.ts"
+  },
+  "dependencies": {
+    "idb-keyval": "^6.2.1",
+    "qr-code-styling": "^1.9.0",
+    "svelte-spa-router": "^4.0.1",
+    "ulid": "^2.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/svelte": "^5.2.0",
+    "@tsconfig/svelte": "^5.0.4",
+    "@twilio-paste/icons": "^13.0.0",
+    "@types/node": "^24.0.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-svelte": "^2.44.0",
+    "fake-indexeddb": "^6.0.0",
+    "jsdom": "^25.0.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-svelte": "^3.2.6",
+    "simple-icons": "^13.10.0",
+    "svelte": "^5.0.0",
+    "svelte-check": "^4.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}
