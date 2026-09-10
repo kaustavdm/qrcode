@@ -1,0 +1,2 @@
+const a='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M4.366 6.384a1.25 1.25 0 111.768-1.768 1.25 1.25 0 01-1.768 1.768zm0 4a1.25 1.25 0 111.768-1.768 1.25 1.25 0 01-1.768 1.768zM4 13.5a1.25 1.25 0 102.5 0 1.25 1.25 0 00-2.5 0zM8.5 5a.5.5 0 000 1h8a.5.5 0 000-1h-8zM8 9.5a.5.5 0 01.5-.5h8a.5.5 0 010 1h-8a.5.5 0 01-.5-.5zm.5 3.5a.5.5 0 000 1h8a.5.5 0 000-1h-8z"/></svg>';export{a as default};
+//# sourceMappingURL=unorderedlist-H7fAzM5L.js.map

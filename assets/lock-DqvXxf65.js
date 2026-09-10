@@ -1,0 +1,2 @@
+const a='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M10.5 12a.5.5 0 00-1 0v2a.5.5 0 001 0v-2z"/><path fill="currentColor" fill-rule="evenodd" d="M6 6v2h-.5A1.5 1.5 0 004 9.5v7A1.5 1.5 0 005.5 18h9a1.5 1.5 0 001.5-1.5v-7A1.5 1.5 0 0014.5 8H14V6a4 4 0 10-8 0zm4-3a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3zM5 9.5a.5.5 0 01.5-.5h9a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-9a.5.5 0 01-.5-.5v-7z" clip-rule="evenodd"/></svg>';export{a as default};
+//# sourceMappingURL=lock-DqvXxf65.js.map

@@ -1,0 +1,2 @@
+const a='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M3 5.5A1.5 1.5 0 014.5 4h11A1.5 1.5 0 0117 5.5v9a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 013 14.5v-9zm1 2.389V11h4V7.889H4zm5 0V11h7V7.889H9zm7-1H4V5.5a.5.5 0 01.5-.5h11a.5.5 0 01.5.5v1.389zM4 14.5V12h4v3H4.5a.5.5 0 01-.5-.5zM9 12v3h6.5a.5.5 0 00.5-.5V12H9z"/></svg>';export{a as default};
+//# sourceMappingURL=datatable-BmQ2P9EF.js.map

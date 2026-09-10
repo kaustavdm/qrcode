@@ -1,0 +1,2 @@
+const v='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M1.4 1.4H9V9H1.4V1.4zm1.2 1.2v5.2h5.2V2.6H2.6zM11 1.4h7.6V9H11V1.4zm1.2 1.2v5.2h5.2V2.6h-5.2zM1.4 11H9v7.6H1.4V11zm1.2 1.2v5.2h5.2v-5.2H2.6zM11 11h7.6v7.6H11V11zm1.2 1.2v5.2h5.2v-5.2h-5.2z"/></svg>';export{v as default};
+//# sourceMappingURL=productswitcher-9M9872OF.js.map

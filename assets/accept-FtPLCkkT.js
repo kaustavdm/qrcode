@@ -1,0 +1,2 @@
+const l='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M16.669 6.315c.435.427.442 1.126.016 1.561L9.49 15.22a1.104 1.104 0 01-1.576 0l-3.598-3.663a1.104 1.104 0 111.575-1.546l2.81 2.86 6.407-6.539a1.104 1.104 0 011.56-.016z"/></svg>';export{l as default};
+//# sourceMappingURL=accept-FtPLCkkT.js.map

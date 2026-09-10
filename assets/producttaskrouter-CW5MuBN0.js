@@ -1,0 +1,2 @@
+const l='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="M15 12l3 1.5-3 1.5v-3zM5 6c1.95 0 3.1 1.45 4 3 .9-1.55 2.05-3 4-3h.5a.5.5 0 01.5.5l-.008.09A.5.5 0 0113.5 7H13c-1.6 0-2.5 1.4-3.4 3 .9 1.6 1.8 3 3.4 3h.5a.5.5 0 110 1H13c-1.95 0-3.1-1.45-4-3-.9 1.55-2.05 3-4 3H2.5a.5.5 0 110-1H5c1.6 0 2.5-1.4 3.4-3C7.5 8.4 6.6 7 5 7H2.5a.5.5 0 010-1zm10-1l3 1.5L15 8V5z"/></svg>';export{l as default};
+//# sourceMappingURL=producttaskrouter-CW5MuBN0.js.map

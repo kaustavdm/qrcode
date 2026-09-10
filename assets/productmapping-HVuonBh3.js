@@ -1,0 +1,2 @@
+const a='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M5.354 7.145a.5.5 0 010 .707L3.707 9.5h12.586l-1.647-1.647a.5.5 0 01.708-.707l2.5 2.5a.5.5 0 010 .707l-2.5 2.5a.5.5 0 01-.708-.707l1.647-1.646H3.707l1.647 1.646a.5.5 0 11-.708.707l-2.5-2.5a.498.498 0 01-.146-.35v-.006a.498.498 0 01.146-.35l2.5-2.5a.5.5 0 01.708 0z"/></svg>';export{a as default};
+//# sourceMappingURL=productmapping-HVuonBh3.js.map

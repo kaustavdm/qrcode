@@ -1,0 +1,2 @@
+const l='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M7.864 3.713a6.5 6.5 0 014.245.336.5.5 0 00.401-.916 7.5 7.5 0 10.256 13.622.5.5 0 00-.435-.9A6.5 6.5 0 117.864 3.713z"/><path fill="currentColor" d="M14.646 7.15a.5.5 0 000 .706l1.647 1.647H7a.5.5 0 100 1h9.293l-1.647 1.646a.5.5 0 00.708.707l2.5-2.5a.5.5 0 000-.707l-2.5-2.5a.5.5 0 00-.708 0z"/></svg>';export{l as default};
+//# sourceMappingURL=productsources-JI8a0ZRN.js.map

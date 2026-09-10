@@ -1,0 +1,2 @@
+const e='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="M9.613 7.163L4.11 14.295c-.171.187-.137.46.077.61a.54.54 0 00.31.095h11.009c.273 0 .495-.194.495-.434a.401.401 0 00-.108-.27l-5.505-7.133a.544.544 0 00-.774 0z" clip-rule="evenodd"/></svg>';export{e as default};
+//# sourceMappingURL=trendup-DcW4YJBS.js.map

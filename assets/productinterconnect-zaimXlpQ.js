@@ -1,0 +1,2 @@
+const t='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="M4.342 4.342a8 8 0 0111.312 0 .5.5 0 01-.705.706 7 7 0 00-9.902 0 7.005 7.005 0 007.63 11.423A7.003 7.003 0 0017 10a.5.5 0 111 0 7.935 7.935 0 01-2.346 5.658A8 8 0 014.342 4.342zm10.276 3.742a5 5 0 01-8.156 5.453.5.5 0 01.705-.706 4 4 0 006.296-4.83A4 4 0 005.997 10a.5.5 0 11-1 0 5.002 5.002 0 019.621-1.916zm-4.62.415a1.5 1.5 0 110 3.001 1.5 1.5 0 010-3z"/></svg>';export{t as default};
+//# sourceMappingURL=productinterconnect-zaimXlpQ.js.map

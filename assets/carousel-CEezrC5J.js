@@ -1,0 +1,2 @@
+const a='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M7 17a1 1 0 11-2 0 1 1 0 012 0zm4 0a1 1 0 11-2 0 1 1 0 012 0zm4 0a1 1 0 11-2 0 1 1 0 012 0zm2-12.5a.5.5 0 011 0v7a.5.5 0 01-1 0v-7zm-15 0a.5.5 0 011 0v7a.5.5 0 01-1 0v-7z"/><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M13 4H7a1 1 0 00-1 1v6a1 1 0 001 1h6a1 1 0 001-1V5a1 1 0 00-1-1zM7 3a2 2 0 00-2 2v6a2 2 0 002 2h6a2 2 0 002-2V5a2 2 0 00-2-2H7z"/></svg>';export{a as default};
+//# sourceMappingURL=carousel-CEezrC5J.js.map

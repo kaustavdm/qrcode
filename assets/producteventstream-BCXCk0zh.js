@@ -1,0 +1,2 @@
+const e='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="M2 10a2 2 0 013.937-.5h2.126a2 2 0 013.874 0h2.126a2 2 0 110 1h-2.126a2 2 0 01-3.874 0H5.937A2 2 0 012 10zm13 0a1 1 0 102 0 1 1 0 00-2 0zm-5 1a1 1 0 110-2 1 1 0 010 2zM4 9a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>';export{e as default};
+//# sourceMappingURL=producteventstream-BCXCk0zh.js.map

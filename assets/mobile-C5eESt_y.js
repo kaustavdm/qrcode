@@ -1,0 +1,2 @@
+const l='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M9 15.5a1 1 0 102 0 1 1 0 00-2 0z"/><path fill="currentColor" fill-rule="evenodd" d="M5 4.5A2.5 2.5 0 017.5 2h5A2.5 2.5 0 0115 4.5v11a2.5 2.5 0 01-2.5 2.5h-5A2.5 2.5 0 015 15.5v-11zm9 0V13H6V4.5A1.5 1.5 0 017.5 3h5A1.5 1.5 0 0114 4.5zm0 9.5H6v1.5A1.5 1.5 0 007.5 17h5a1.5 1.5 0 001.5-1.5V14z" clip-rule="evenodd"/></svg>';export{l as default};
+//# sourceMappingURL=mobile-C5eESt_y.js.map

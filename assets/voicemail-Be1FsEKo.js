@@ -1,0 +1,2 @@
+const e='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M9 11a3.99 3.99 0 01-1.354 3h4.708A4 4 0 1115 15H5a4 4 0 114-4zm-4 3a3 3 0 100-6 3 3 0 000 6zm10 0a3 3 0 100-6 3 3 0 000 6z"/></svg>';export{e as default};
+//# sourceMappingURL=voicemail-Be1FsEKo.js.map

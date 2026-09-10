@@ -1,0 +1,2 @@
+const l='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M12 4a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm4.31 3.16a.5.5 0 01.132.627l-.05.075-5.223 6.608a1.2 1.2 0 01-1.867.054l-.077-.103-1.634-2.318a.5.5 0 01.76-.644l.058.068 1.64 2.328a.199.199 0 00.274.056l.029-.023.027-.03 5.229-6.616a.5.5 0 01.702-.082z"/></svg>';export{l as default};
+//# sourceMappingURL=checkmarkcircle-253Y4l1q.js.map

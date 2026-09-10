@@ -1,0 +1,2 @@
+const l='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" d="M8.813 11.978a.5.5 0 10.707.707l2.104-2.103h1.932a2.25 2.25 0 100-1H11.79l-2.27-2.27a.5.5 0 10-.707.707l1.563 1.563H6.444a2.25 2.25 0 100 1h3.766l-1.397 1.396zM3 10.082a1.25 1.25 0 112.5 0 1.25 1.25 0 01-2.5 0zm11.5 0a1.25 1.25 0 112.5 0 1.25 1.25 0 01-2.5 0z" clip-rule="evenodd"/></svg>';export{l as default};
+//# sourceMappingURL=productflow-B0OvMH0n.js.map
