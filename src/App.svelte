@@ -1,11 +1,15 @@
 <script lang="ts">
-  const title = 'QR Code Generator';
+  import Router from 'svelte-spa-router';
+  import Layout from './routes/Layout.svelte';
+  import Generator from './routes/Generator.svelte';
+  import History from './routes/History.svelte';
+
+  const routes = {
+    '/': Generator,
+    '/history': History
+  };
 </script>
 
-<main>
-  <h1>{title}</h1>
-</main>
-
-<style>
-  main { padding: 1rem; }
-</style>
+<Layout>
+  <Router {routes} />
+</Layout>

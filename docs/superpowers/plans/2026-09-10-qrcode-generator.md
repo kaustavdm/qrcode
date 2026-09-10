@@ -29,9 +29,11 @@
 ## Task 1: Project scaffolding + git init + first commit
 
 **Files:**
+
 - Create: `package.json`, `tsconfig.json`, `svelte.config.js`, `vite.config.ts`, `.gitignore`, `.nvmrc`, `.editorconfig`, `LICENSE`, `README.md`, `index.html`, `src/main.ts`, `src/App.svelte`, `src/app.css`
 
 **Interfaces:**
+
 - Consumes: none.
 - Produces: A runnable Vite + Svelte 5 shell that prints "QR Code Generator" to the DOM. `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`, `npm run typecheck` all work.
 
@@ -122,7 +124,7 @@ SOFTWARE.
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "npm run icons:build && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "typecheck": "svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint . && prettier --check .",
@@ -181,7 +183,14 @@ SOFTWARE.
     "verbatimModuleSyntax": false,
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*", "tests/**/*", "scripts/**/*", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"]
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "scripts/**/*",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ]
 }
 ```
 
@@ -238,8 +247,21 @@ export default defineConfig({
 `src/app.css`:
 
 ```css
-html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-#app { min-height: 100vh; }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+}
+#app {
+  min-height: 100vh;
+}
 ```
 
 `src/App.svelte`:
@@ -254,7 +276,9 @@ html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, -apple
 </main>
 
 <style>
-  main { padding: 1rem; }
+  main {
+    padding: 1rem;
+  }
 </style>
 ```
 
@@ -291,7 +315,7 @@ git status   # verify no stray files
 git commit -m "chore: scaffold Vite + Svelte 5 + TypeScript project"
 ```
 
-*(README.md at this point can be a two-line stub — Task 17 expands it.)*
+_(README.md at this point can be a two-line stub — Task 17 expands it.)_
 
 `README.md`:
 
@@ -306,10 +330,12 @@ Static QR code generator. See `docs/superpowers/specs/2026-09-10-qrcode-generato
 ## Task 2: Design tokens + theme controller
 
 **Files:**
+
 - Create: `src/lib/theme/tokens.css`, `src/lib/theme/theme.svelte.ts`, `src/lib/theme/theme.test.ts`, `vitest.config.ts`
 - Modify: `src/main.ts` (import `tokens.css` and initialize theme), `src/App.svelte` (use tokens)
 
 **Interfaces:**
+
 - Consumes: none.
 - Produces:
   - `initTheme(): void` — reads persisted mode from `localStorage.getItem('qrcode.theme')`, applies `data-theme` to `<html>`, subscribes to `prefers-color-scheme` when mode is `system`.
@@ -412,7 +438,8 @@ function systemPrefersDark(): boolean {
 }
 
 function apply(): void {
-  const resolved: 'light' | 'dark' = mode === 'system' ? (systemPrefersDark() ? 'dark' : 'light') : mode;
+  const resolved: 'light' | 'dark' =
+    mode === 'system' ? (systemPrefersDark() ? 'dark' : 'light') : mode;
   document.documentElement.setAttribute('data-theme', resolved);
 }
 
@@ -421,16 +448,21 @@ export function initTheme(): void {
   mode = stored ?? 'system';
   apply();
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
-  mq.addEventListener?.('change', () => { if (mode === 'system') apply(); });
+  mq.addEventListener?.('change', () => {
+    if (mode === 'system') apply();
+  });
 }
 
 export function setTheme(next: ThemeMode): void {
   mode = next;
-  if (next === 'system') localStorage.removeItem(KEY); else localStorage.setItem(KEY, next);
+  if (next === 'system') localStorage.removeItem(KEY);
+  else localStorage.setItem(KEY, next);
   apply();
 }
 
-export function getTheme(): ThemeMode { return mode; }
+export function getTheme(): ThemeMode {
+  return mode;
+}
 
 export function resolvedTheme(): 'light' | 'dark' {
   return mode === 'system' ? (systemPrefersDark() ? 'dark' : 'light') : mode;
@@ -458,9 +490,11 @@ git commit -m "feat(theme): add design tokens and theme controller"
 ## Task 3: Domain types
 
 **Files:**
+
 - Create: `src/lib/types.ts`
 
 **Interfaces:**
+
 - Produces: All types in spec §5 (`ContentKind`, `UrlPayload`, `WifiPayload`, `VCardPayload`, `WhatsAppPayload`, `Payload`, `LogoRef`, `QrOptions`, `HistoryEntry`, `IconManifestEntry`).
 
 - [ ] **Step 1: Copy the full type block from spec §5 into `src/lib/types.ts`.**
@@ -482,9 +516,11 @@ git commit -m "feat(types): add domain types for QR payloads, options, history"
 ## Task 4: QR encoders (TDD)
 
 **Files:**
+
 - Create: `src/lib/qr/encoders.ts`, `src/lib/qr/encoders.test.ts`
 
 **Interfaces:**
+
 - Consumes: types from `src/lib/types.ts`.
 - Produces:
   - `encodeUrl(p: UrlPayload): string`
@@ -529,7 +565,13 @@ describe('encodeVCard (MeCard)', () => {
     expect(s).toBe('MECARD:N:Ada Lovelace;TEL:+1234;;');
   });
   it('emits all fields when present', () => {
-    const s = encodeVCard({ name: 'Grace', org: 'Navy', phone: '+1', email: 'g@x', url: 'https://x' });
+    const s = encodeVCard({
+      name: 'Grace',
+      org: 'Navy',
+      phone: '+1',
+      email: 'g@x',
+      url: 'https://x'
+    });
     expect(s).toBe('MECARD:N:Grace;ORG:Navy;TEL:+1;EMAIL:g@x;URL:https://x;;');
   });
   it('throws on empty name', () => {
@@ -542,8 +584,9 @@ describe('encodeWhatsApp', () => {
     expect(encodeWhatsApp({ phone: '+1 (415) 555-0100' })).toBe('https://wa.me/14155550100');
   });
   it('URL-encodes the message', () => {
-    expect(encodeWhatsApp({ phone: '14155550100', message: 'hi & bye' }))
-      .toBe('https://wa.me/14155550100?text=hi%20%26%20bye');
+    expect(encodeWhatsApp({ phone: '14155550100', message: 'hi & bye' })).toBe(
+      'https://wa.me/14155550100?text=hi%20%26%20bye'
+    );
   });
   it('throws on empty phone', () => {
     expect(() => encodeWhatsApp({ phone: '' })).toThrow();
@@ -559,7 +602,14 @@ Expected: FAIL — module not found.
 - [ ] **Step 3: Implement `encoders.ts`**
 
 ```ts
-import type { ContentKind, Payload, UrlPayload, WifiPayload, VCardPayload, WhatsAppPayload } from '../types';
+import type {
+  ContentKind,
+  Payload,
+  UrlPayload,
+  WifiPayload,
+  VCardPayload,
+  WhatsAppPayload
+} from '../types';
 
 function wifiEscape(s: string): string {
   return s.replace(/([\\;,":])/g, '\\$1');
@@ -596,10 +646,14 @@ export function encodeWhatsApp(p: WhatsAppPayload): string {
 
 export function encode(kind: ContentKind, p: Payload): string {
   switch (kind) {
-    case 'url': return encodeUrl(p as UrlPayload);
-    case 'wifi': return encodeWifi(p as WifiPayload);
-    case 'vcard': return encodeVCard(p as VCardPayload);
-    case 'whatsapp': return encodeWhatsApp(p as WhatsAppPayload);
+    case 'url':
+      return encodeUrl(p as UrlPayload);
+    case 'wifi':
+      return encodeWifi(p as WifiPayload);
+    case 'vcard':
+      return encodeVCard(p as VCardPayload);
+    case 'whatsapp':
+      return encodeWhatsApp(p as WhatsAppPayload);
   }
 }
 ```
@@ -621,9 +675,11 @@ git commit -m "feat(qr): add payload encoders for url, wifi, vcard, whatsapp"
 ## Task 5: QR render wrapper
 
 **Files:**
+
 - Create: `src/lib/qr/render.ts`, `src/lib/qr/render.test.ts`
 
 **Interfaces:**
+
 - Consumes: `QrOptions`, `LogoRef` from `types.ts`; `qr-code-styling` package.
 - Produces:
   - `renderQr(input: { data: string; options: QrOptions; logoDataUrl?: string | undefined }): Promise<{ svg: string; toPngBlob(): Promise<Blob> }>`
@@ -637,16 +693,31 @@ import { renderQr } from './render';
 
 describe('renderQr', () => {
   it('returns an SVG string containing <svg', async () => {
-    const r = await renderQr({ data: 'https://example.com', options: { errorCorrection: 'M', size: 256, fgColor: '#111214', bgColor: '#ffffff', dotStyle: 'square' } });
+    const r = await renderQr({
+      data: 'https://example.com',
+      options: {
+        errorCorrection: 'M',
+        size: 256,
+        fgColor: '#111214',
+        bgColor: '#ffffff',
+        dotStyle: 'square'
+      }
+    });
     expect(r.svg).toContain('<svg');
   });
 
   it('forces error correction H when logoDataUrl provided', async () => {
-    const spy = await import('qr-code-styling').then(m => m.default);
+    const spy = await import('qr-code-styling').then((m) => m.default);
     // Instead of spying, just check no throw and produced svg still valid.
     const r = await renderQr({
       data: 'x',
-      options: { errorCorrection: 'L', size: 256, fgColor: '#111214', bgColor: '#ffffff', dotStyle: 'square' },
+      options: {
+        errorCorrection: 'L',
+        size: 256,
+        fgColor: '#111214',
+        bgColor: '#ffffff',
+        dotStyle: 'square'
+      },
       logoDataUrl: 'data:image/svg+xml;utf8,<svg/>'
     });
     expect(r.svg).toContain('<svg');
@@ -681,7 +752,12 @@ export async function renderQr(input: {
     qrOptions: { errorCorrectionLevel: ec },
     dotsOptions: {
       color: input.options.fgColor,
-      type: input.options.dotStyle === 'dots' ? 'dots' : input.options.dotStyle === 'rounded' ? 'rounded' : 'square'
+      type:
+        input.options.dotStyle === 'dots'
+          ? 'dots'
+          : input.options.dotStyle === 'rounded'
+            ? 'rounded'
+            : 'square'
     },
     backgroundOptions: { color: input.options.bgColor },
     imageOptions: { hideBackgroundDots: true, imageSize: 0.25, margin: 4, crossOrigin: 'anonymous' }
@@ -717,9 +793,11 @@ git commit -m "feat(qr): add render wrapper over qr-code-styling"
 ## Task 6: History storage (TDD, IndexedDB)
 
 **Files:**
+
 - Create: `src/lib/storage/history.ts`, `src/lib/storage/history.test.ts`
 
 **Interfaces:**
+
 - Consumes: `HistoryEntry` from `types.ts`; `idb-keyval`.
 - Produces:
   - `list(): Promise<HistoryEntry[]>` — sorted desc by `createdAt`.
@@ -738,7 +816,11 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { list, get, save, remove, clear, getLogoBlob, HISTORY_CAP } from './history';
 import type { HistoryEntry } from '../types';
 
-const mkEntry = (id: string, createdAt: number, kind: HistoryEntry['kind'] = 'url'): HistoryEntry => ({
+const mkEntry = (
+  id: string,
+  createdAt: number,
+  kind: HistoryEntry['kind'] = 'url'
+): HistoryEntry => ({
   id,
   createdAt,
   kind,
@@ -747,14 +829,16 @@ const mkEntry = (id: string, createdAt: number, kind: HistoryEntry['kind'] = 'ur
   options: { errorCorrection: 'M', size: 256, fgColor: '#111', bgColor: '#fff', dotStyle: 'square' }
 });
 
-beforeEach(async () => { await clear(); });
+beforeEach(async () => {
+  await clear();
+});
 
 describe('history storage', () => {
   it('save + list round-trips', async () => {
     await save(mkEntry('a', 1));
     await save(mkEntry('b', 2));
     const items = await list();
-    expect(items.map(i => i.id)).toEqual(['b', 'a']);
+    expect(items.map((i) => i.id)).toEqual(['b', 'a']);
   });
 
   it('stores upload logo blob and retrieves it', async () => {
@@ -797,8 +881,12 @@ import type { HistoryEntry } from '../types';
 
 export const HISTORY_CAP = 100;
 
-const historyStore = createStore('qrcode', 'history');
-const logoStore = createStore('qrcode', 'logos');
+// Two SEPARATE databases (not one DB with two stores) — idb-keyval's createStore
+// opens the DB at v1 with a single-store upgrade; a second createStore call
+// against the same DB name would silently skip adding the second store, then
+// throw NotFoundError on first access.
+const historyStore = createStore('qrcode-history', 'history');
+const logoStore = createStore('qrcode-logos', 'logos');
 
 export async function save(entry: HistoryEntry, logoBlob?: Blob): Promise<void> {
   if (logoBlob && entry.logo.kind === 'upload') await set(entry.logo.blobId, logoBlob, logoStore);
@@ -851,16 +939,20 @@ git commit -m "feat(storage): add IndexedDB-backed history and logo blob store"
 ## Task 7: Icon manifest build script
 
 **Files:**
+
 - Create: `scripts/build-icon-manifest.ts`
-- Modify: nothing (script is invoked via existing `npm run icons:build` in `package.json`).
+- Modify: `package.json` — change `"build"` script from `"vite build"` to `"npm run icons:build && vite build"` so production builds run icon generation as a prebuild step.
 
 **Interfaces:**
+
 - Consumes: `@twilio-paste/icons` (raw SVGs under `node_modules/@twilio-paste/icons/dist/svg/`), `simple-icons` (raw SVGs under `node_modules/simple-icons/icons/`).
 - Produces:
   - `src/lib/icons/manifest.generated.json` — an array of `IconManifestEntry`.
   - `src/lib/icons/svg/paste/<id>.svg` and `src/lib/icons/svg/simple-icons/<id>.svg` — one file per icon.
 
 - [ ] **Step 1: Write `scripts/build-icon-manifest.ts`**
+
+**Important:** The installed `@twilio-paste/icons` npm package does NOT ship raw SVG files — it ships React components with SVG path data embedded in minified JS under `esm/*Icon.js`. The `dist/svg/` path from earlier draft of this plan does not exist. This step parses the ESM JS files with a regex to reconstruct standalone SVGs. Simple Icons ships raw SVGs at `node_modules/simple-icons/icons/*.svg` as expected.
 
 ```ts
 import { readdir, readFile, writeFile, mkdir, rm } from 'node:fs/promises';
@@ -877,22 +969,75 @@ const MANIFEST_OUT = join(OUT_DIR, 'manifest.generated.json');
 type Entry = { id: string; setId: 'paste' | 'simple-icons'; name: string; keywords: string[] };
 
 function slugify(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
 }
 
 function keywordsFromName(name: string): string[] {
-  return Array.from(new Set(name.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean)));
+  return Array.from(
+    new Set(
+      name
+        .toLowerCase()
+        .split(/[^a-z0-9]+/)
+        .filter(Boolean)
+    )
+  );
+}
+
+function reactAttrToSvgAttr(k: string): string {
+  const map: Record<string, string> = {
+    fillRule: 'fill-rule',
+    clipRule: 'clip-rule',
+    strokeWidth: 'stroke-width',
+    strokeLinecap: 'stroke-linecap',
+    strokeLinejoin: 'stroke-linejoin',
+    strokeDasharray: 'stroke-dasharray',
+    strokeMiterlimit: 'stroke-miterlimit'
+  };
+  return map[k] ?? k;
+}
+
+// Extract {viewBox, paths[]} from a Paste ESM Icon module.
+// The module contains one createElement("svg", {..., viewBox:"..."}) and
+// one or more createElement("path", { d:"...", fill:"...", ... }).
+function extractPasteSvg(js: string): { viewBox: string; body: string } | null {
+  const vb = /viewBox:"([^"]+)"/.exec(js);
+  if (!vb) return null;
+  const paths: string[] = [];
+  const pathRe = /createElement\("path",\{([^}]+)\}/g;
+  let m: RegExpExecArray | null;
+  while ((m = pathRe.exec(js)) !== null) {
+    const attrBlock = m[1] ?? '';
+    const attrs: Record<string, string> = {};
+    for (const pair of attrBlock.matchAll(/([a-zA-Z]+):"([^"]*)"/g)) {
+      attrs[pair[1] ?? ''] = pair[2] ?? '';
+    }
+    if (!attrs['d']) continue;
+    const rendered = Object.entries(attrs)
+      .map(([k, v]) => `${reactAttrToSvgAttr(k)}="${v}"`)
+      .join(' ');
+    paths.push(`<path ${rendered}/>`);
+  }
+  if (paths.length === 0) return null;
+  return { viewBox: vb[1] ?? '0 0 24 24', body: paths.join('') };
 }
 
 async function readPasteIcons(): Promise<{ entry: Entry; svg: string }[]> {
-  const dir = join(ROOT, 'node_modules/@twilio-paste/icons/dist/svg');
-  if (!existsSync(dir)) throw new Error(`Paste icons SVG source not found at ${dir}. Did @twilio-paste/icons install?`);
-  const files = (await readdir(dir)).filter(f => f.endsWith('.svg'));
+  const dir = join(ROOT, 'node_modules/@twilio-paste/icons/esm');
+  if (!existsSync(dir))
+    throw new Error(`Paste icons ESM source not found at ${dir}. Did @twilio-paste/icons install?`);
+  const files = (await readdir(dir)).filter((f) => f.endsWith('Icon.js'));
   const out: { entry: Entry; svg: string }[] = [];
   for (const f of files) {
-    const svg = await readFile(join(dir, f), 'utf8');
-    const id = slugify(basename(f, '.svg'));
-    const name = basename(f, '.svg').replace(/Icon$/, '').replace(/([A-Z])/g, ' $1').trim();
+    const js = await readFile(join(dir, f), 'utf8');
+    const parsed = extractPasteSvg(js);
+    if (!parsed) continue; // skip modules that don't match the expected shape
+    const base = basename(f, 'Icon.js');
+    const id = slugify(base);
+    const name = base.replace(/([A-Z])/g, ' $1').trim();
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${parsed.viewBox}">${parsed.body}</svg>`;
     out.push({ entry: { id, setId: 'paste', name, keywords: keywordsFromName(name) }, svg });
   }
   return out;
@@ -901,13 +1046,16 @@ async function readPasteIcons(): Promise<{ entry: Entry; svg: string }[]> {
 async function readSimpleIcons(): Promise<{ entry: Entry; svg: string }[]> {
   const dir = join(ROOT, 'node_modules/simple-icons/icons');
   if (!existsSync(dir)) throw new Error(`simple-icons SVG source not found at ${dir}`);
-  const files = (await readdir(dir)).filter(f => f.endsWith('.svg'));
+  const files = (await readdir(dir)).filter((f) => f.endsWith('.svg'));
   const out: { entry: Entry; svg: string }[] = [];
   for (const f of files) {
     const svg = await readFile(join(dir, f), 'utf8');
     const id = basename(f, '.svg');
     const title = /<title>([^<]+)<\/title>/.exec(svg)?.[1] ?? id;
-    out.push({ entry: { id, setId: 'simple-icons', name: title, keywords: keywordsFromName(title) }, svg });
+    out.push({
+      entry: { id, setId: 'simple-icons', name: title, keywords: keywordsFromName(title) },
+      svg
+    });
   }
   return out;
 }
@@ -935,7 +1083,10 @@ async function main(): Promise<void> {
   console.log(`Wrote ${manifest.length} icons.`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
 ```
 
 - [ ] **Step 2: Run the script**
@@ -967,9 +1118,11 @@ Note: `manifest.generated.json` and `src/lib/icons/svg/` are gitignored per Task
 ## Task 8: Icon registry (search + lazy load) + bundle-size guard
 
 **Files:**
+
 - Create: `src/lib/icons/registry.ts`, `src/lib/icons/registry.test.ts`, `src/lib/icons/svg/.gitkeep` (so the glob directory exists in fresh clones after `npm run icons:build`)
 
 **Interfaces:**
+
 - Consumes: `manifest.generated.json`, `src/lib/icons/svg/**/*.svg` (via `import.meta.glob`).
 - Produces:
   - `loadManifest(): Promise<IconManifestEntry[]>` — dynamic import so the manifest is a separate chunk.
@@ -1006,7 +1159,7 @@ describe('icon registry', () => {
 
   it('search is case-insensitive', async () => {
     const results = await search('GITH');
-    expect(results.some(r => r.id === 'github')).toBe(true);
+    expect(results.some((r) => r.id === 'github')).toBe(true);
   });
 });
 ```
@@ -1021,7 +1174,10 @@ Expected: FAIL.
 ```ts
 import type { IconManifestEntry } from '../types';
 
-const svgLoaders = import.meta.glob('./svg/**/*.svg', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>;
+const svgLoaders = import.meta.glob('./svg/**/*.svg', {
+  query: '?raw',
+  import: 'default'
+}) as Record<string, () => Promise<string>>;
 
 let manifestCache: IconManifestEntry[] | null = null;
 
@@ -1042,10 +1198,10 @@ export async function search(query: string, limit = 100): Promise<IconManifestEn
     const idx = name.indexOf(q);
     if (idx === 0) scored.push({ entry, score: 0 });
     else if (idx > 0) scored.push({ entry, score: idx });
-    else if (entry.keywords.some(k => k.includes(q))) scored.push({ entry, score: 1000 });
+    else if (entry.keywords.some((k) => k.includes(q))) scored.push({ entry, score: 1000 });
   }
   scored.sort((a, b) => a.score - b.score || a.entry.name.localeCompare(b.entry.name));
-  return scored.slice(0, limit).map(s => s.entry);
+  return scored.slice(0, limit).map((s) => s.entry);
 }
 
 export async function loadIconSvg(setId: 'paste' | 'simple-icons', id: string): Promise<string> {
@@ -1097,10 +1253,12 @@ git commit -m "feat(icons): add lazy manifest + per-icon SVG loader with search"
 ## Task 9: Layout + routing shell
 
 **Files:**
+
 - Create: `src/routes/Layout.svelte`, `src/routes/Generator.svelte` (placeholder), `src/routes/History.svelte` (placeholder)
 - Modify: `src/App.svelte` to mount `<Router>` from `svelte-spa-router`; `src/main.ts` unchanged.
 
 **Interfaces:**
+
 - Consumes: `svelte-spa-router`, `theme.svelte.ts`, `tokens.css`.
 - Produces: A working two-page hash-routed shell with theme toggle in the layout.
 
@@ -1158,11 +1316,38 @@ git commit -m "feat(icons): add lazy manifest + per-icon SVG loader with search"
 </main>
 
 <style>
-  header { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border); background: var(--surface); }
-  header a { color: var(--fg); text-decoration: none; }
-  nav { display: flex; gap: 1rem; align-items: center; }
-  button { min-height: 44px; min-width: 44px; padding: 0 1rem; background: var(--surface-elev); color: var(--fg); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
-  main { max-width: 900px; margin: 0 auto; padding: 1rem; }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  header a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 1rem;
+    background: var(--surface-elev);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
 </style>
 ```
 
@@ -1186,9 +1371,11 @@ git commit -m "feat(routing): add layout with hash router and theme toggle"
 ## Task 10: URL form + WhatsApp form + tabs (TDD component)
 
 **Files:**
+
 - Create: `src/components/ContentTypeTabs.svelte`, `src/components/forms/UrlForm.svelte`, `src/components/forms/WhatsAppForm.svelte`, `src/components/forms/UrlForm.test.ts`
 
 **Interfaces:**
+
 - `UrlForm` props: `value: UrlPayload`, `onchange: (v: UrlPayload) => void`.
 - `WhatsAppForm` props: `value: WhatsAppPayload`, `onchange: (v: WhatsAppPayload) => void`.
 - `ContentTypeTabs` props: `kind: ContentKind`, `onchange: (k: ContentKind) => void`.
@@ -1235,14 +1422,34 @@ Expected: FAIL (module not found).
 
 <label>
   <span>Text or URL</span>
-  <textarea rows="3" value={value.text} oninput={(e) => onchange({ text: (e.currentTarget as HTMLTextAreaElement).value })} onblur={() => (touched = true)}></textarea>
+  <textarea
+    rows="3"
+    value={value.text}
+    oninput={(e) => onchange({ text: (e.currentTarget as HTMLTextAreaElement).value })}
+    onblur={() => (touched = true)}
+  ></textarea>
 </label>
 {#if invalid}<p role="alert">Text is required.</p>{/if}
 
 <style>
-  label { display: flex; flex-direction: column; gap: 0.25rem; }
-  textarea { min-height: 88px; padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-elev); color: var(--fg); font: inherit; }
-  p[role="alert"] { color: var(--danger); font-size: 0.875rem; }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  textarea {
+    min-height: 88px;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-elev);
+    color: var(--fg);
+    font: inherit;
+  }
+  p[role='alert'] {
+    color: var(--danger);
+    font-size: 0.875rem;
+  }
 </style>
 ```
 
@@ -1251,21 +1458,45 @@ Expected: FAIL (module not found).
 ```svelte
 <script lang="ts">
   import type { WhatsAppPayload } from '../../lib/types';
-  let { value, onchange }: { value: WhatsAppPayload; onchange: (v: WhatsAppPayload) => void } = $props();
+  let { value, onchange }: { value: WhatsAppPayload; onchange: (v: WhatsAppPayload) => void } =
+    $props();
 </script>
 
 <label>
   <span>Phone (E.164)</span>
-  <input type="tel" value={value.phone} oninput={(e) => onchange({ ...value, phone: (e.currentTarget as HTMLInputElement).value })} placeholder="+14155550100" />
+  <input
+    type="tel"
+    value={value.phone}
+    oninput={(e) => onchange({ ...value, phone: (e.currentTarget as HTMLInputElement).value })}
+    placeholder="+14155550100"
+  />
 </label>
 <label>
   <span>Message (optional)</span>
-  <textarea rows="3" value={value.message ?? ''} oninput={(e) => onchange({ ...value, message: (e.currentTarget as HTMLTextAreaElement).value })}></textarea>
+  <textarea
+    rows="3"
+    value={value.message ?? ''}
+    oninput={(e) => onchange({ ...value, message: (e.currentTarget as HTMLTextAreaElement).value })}
+  ></textarea>
 </label>
 
 <style>
-  label { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.75rem; }
-  input, textarea { padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-elev); color: var(--fg); font: inherit; min-height: 44px; }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+  input,
+  textarea {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-elev);
+    color: var(--fg);
+    font: inherit;
+    min-height: 44px;
+  }
 </style>
 ```
 
@@ -1285,14 +1516,34 @@ Expected: FAIL (module not found).
 
 <div role="tablist">
   {#each tabs as t}
-    <button role="tab" aria-selected={kind === t.id} onclick={() => onchange(t.id)}>{t.label}</button>
+    <button role="tab" aria-selected={kind === t.id} onclick={() => onchange(t.id)}
+      >{t.label}</button
+    >
   {/each}
 </div>
 
 <style>
-  div[role="tablist"] { display: flex; gap: 0.25rem; margin-bottom: 1rem; overflow-x: auto; }
-  button { min-height: 44px; padding: 0 0.875rem; background: var(--surface); color: var(--fg); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; white-space: nowrap; }
-  button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: white; }
+  div[role='tablist'] {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+  }
+  button {
+    min-height: 44px;
+    padding: 0 0.875rem;
+    background: var(--surface);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button[aria-selected='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
 </style>
 ```
 
@@ -1313,9 +1564,11 @@ git commit -m "feat(forms): add tabs, URL form, WhatsApp form"
 ## Task 11: WiFi form + vCard form
 
 **Files:**
+
 - Create: `src/components/forms/WifiForm.svelte`, `src/components/forms/VCardForm.svelte`, `src/components/forms/WifiForm.test.ts`
 
 **Interfaces:**
+
 - `WifiForm` props: `value: WifiPayload`, `onchange: (v: WifiPayload) => void`.
 - `VCardForm` props: `value: VCardPayload`, `onchange: (v: VCardPayload) => void`.
 
@@ -1328,12 +1581,18 @@ import WifiForm from './WifiForm.svelte';
 
 describe('WifiForm', () => {
   it('hides password when auth = nopass', async () => {
-    render(WifiForm, { value: { ssid: '', password: '', auth: 'nopass', hidden: false }, onchange: () => {} });
+    render(WifiForm, {
+      value: { ssid: '', password: '', auth: 'nopass', hidden: false },
+      onchange: () => {}
+    });
     expect(screen.queryByLabelText(/password/i)).toBeNull();
   });
 
   it('shows password when auth = WPA', async () => {
-    render(WifiForm, { value: { ssid: '', password: '', auth: 'WPA', hidden: false }, onchange: () => {} });
+    render(WifiForm, {
+      value: { ssid: '', password: '', auth: 'WPA', hidden: false },
+      onchange: () => {}
+    });
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
   });
 
@@ -1362,11 +1621,22 @@ Expected: FAIL.
 
 <label>
   <span>Network name (SSID)</span>
-  <input type="text" value={value.ssid} oninput={(e) => onchange({ ...value, ssid: (e.currentTarget as HTMLInputElement).value })} />
+  <input
+    type="text"
+    value={value.ssid}
+    oninput={(e) => onchange({ ...value, ssid: (e.currentTarget as HTMLInputElement).value })}
+  />
 </label>
 <label>
   <span>Security</span>
-  <select value={value.auth} onchange={(e) => onchange({ ...value, auth: (e.currentTarget as HTMLSelectElement).value as WifiPayload['auth'] })}>
+  <select
+    value={value.auth}
+    onchange={(e) =>
+      onchange({
+        ...value,
+        auth: (e.currentTarget as HTMLSelectElement).value as WifiPayload['auth']
+      })}
+  >
     <option value="WPA">WPA / WPA2 / WPA3</option>
     <option value="WEP">WEP</option>
     <option value="nopass">None</option>
@@ -1375,19 +1645,49 @@ Expected: FAIL.
 {#if value.auth !== 'nopass'}
   <label>
     <span>Password</span>
-    <input type="password" value={value.password} oninput={(e) => onchange({ ...value, password: (e.currentTarget as HTMLInputElement).value })} />
+    <input
+      type="password"
+      value={value.password}
+      oninput={(e) => onchange({ ...value, password: (e.currentTarget as HTMLInputElement).value })}
+    />
   </label>
 {/if}
 <label class="row">
-  <input type="checkbox" checked={value.hidden} onchange={(e) => onchange({ ...value, hidden: (e.currentTarget as HTMLInputElement).checked })} />
+  <input
+    type="checkbox"
+    checked={value.hidden}
+    onchange={(e) => onchange({ ...value, hidden: (e.currentTarget as HTMLInputElement).checked })}
+  />
   <span>Hidden network</span>
 </label>
 
 <style>
-  label { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.75rem; }
-  label.row { flex-direction: row; align-items: center; gap: 0.5rem; }
-  input, select { padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-elev); color: var(--fg); font: inherit; min-height: 44px; }
-  input[type="checkbox"] { min-height: unset; width: 20px; height: 20px; }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+  label.row {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  input,
+  select {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-elev);
+    color: var(--fg);
+    font: inherit;
+    min-height: 44px;
+  }
+  input[type='checkbox'] {
+    min-height: unset;
+    width: 20px;
+    height: 20px;
+  }
 </style>
 ```
 
@@ -1397,18 +1697,63 @@ Expected: FAIL.
 <script lang="ts">
   import type { VCardPayload } from '../../lib/types';
   let { value, onchange }: { value: VCardPayload; onchange: (v: VCardPayload) => void } = $props();
-  function update<K extends keyof VCardPayload>(k: K, v: VCardPayload[K]) { onchange({ ...value, [k]: v }); }
+  function update<K extends keyof VCardPayload>(k: K, v: VCardPayload[K]) {
+    onchange({ ...value, [k]: v });
+  }
 </script>
 
-<label><span>Name</span><input type="text" value={value.name} oninput={(e) => update('name', (e.currentTarget as HTMLInputElement).value)} /></label>
-<label><span>Organization</span><input type="text" value={value.org ?? ''} oninput={(e) => update('org', (e.currentTarget as HTMLInputElement).value)} /></label>
-<label><span>Phone</span><input type="tel" value={value.phone ?? ''} oninput={(e) => update('phone', (e.currentTarget as HTMLInputElement).value)} /></label>
-<label><span>Email</span><input type="email" value={value.email ?? ''} oninput={(e) => update('email', (e.currentTarget as HTMLInputElement).value)} /></label>
-<label><span>Website</span><input type="url" value={value.url ?? ''} oninput={(e) => update('url', (e.currentTarget as HTMLInputElement).value)} /></label>
+<label
+  ><span>Name</span><input
+    type="text"
+    value={value.name}
+    oninput={(e) => update('name', (e.currentTarget as HTMLInputElement).value)}
+  /></label
+>
+<label
+  ><span>Organization</span><input
+    type="text"
+    value={value.org ?? ''}
+    oninput={(e) => update('org', (e.currentTarget as HTMLInputElement).value)}
+  /></label
+>
+<label
+  ><span>Phone</span><input
+    type="tel"
+    value={value.phone ?? ''}
+    oninput={(e) => update('phone', (e.currentTarget as HTMLInputElement).value)}
+  /></label
+>
+<label
+  ><span>Email</span><input
+    type="email"
+    value={value.email ?? ''}
+    oninput={(e) => update('email', (e.currentTarget as HTMLInputElement).value)}
+  /></label
+>
+<label
+  ><span>Website</span><input
+    type="url"
+    value={value.url ?? ''}
+    oninput={(e) => update('url', (e.currentTarget as HTMLInputElement).value)}
+  /></label
+>
 
 <style>
-  label { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.75rem; }
-  input { padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-elev); color: var(--fg); font: inherit; min-height: 44px; }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+  input {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-elev);
+    color: var(--fg);
+    font: inherit;
+    min-height: 44px;
+  }
 </style>
 ```
 
@@ -1429,9 +1774,11 @@ git commit -m "feat(forms): add Wi-Fi and vCard forms"
 ## Task 12: IconBadge + LogoPicker
 
 **Files:**
+
 - Create: `src/components/IconBadge.svelte`, `src/components/LogoPicker.svelte`, `src/components/LogoPicker.test.ts`
 
 **Interfaces:**
+
 - `IconBadge` props: `svg: string`, `size?: number` (default 128). Renders the icon SVG centered on a white circular background at the requested size and exposes an imperative `.toDataUrl(): Promise<string>` via `bind:this` (a small helper method on the component).
 - `LogoPicker` props: `value: LogoRef`, `onchange: (v: LogoRef, dataUrlForRender: string | undefined, uploadBlob?: Blob) => void`.
 
@@ -1440,7 +1787,7 @@ git commit -m "feat(forms): add Wi-Fi and vCard forms"
 ```svelte
 <script lang="ts" module>
   export async function svgToBadgeDataUrl(svg: string, size = 128): Promise<string> {
-    const wrapped = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="white"/><g transform="translate(${size*0.15},${size*0.15}) scale(${size*0.7/24})">${svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '')}</g></svg>`;
+    const wrapped = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="white"/><g transform="translate(${size * 0.15},${size * 0.15}) scale(${(size * 0.7) / 24})">${svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>$/, '')}</g></svg>`;
     return `data:image/svg+xml;utf8,${encodeURIComponent(wrapped)}`;
   }
 </script>
@@ -1454,8 +1801,17 @@ git commit -m "feat(forms): add Wi-Fi and vCard forms"
 </div>
 
 <style>
-  .badge { background: white; border-radius: 50%; display: grid; place-items: center; box-shadow: var(--shadow-1); }
-  .badge :global(svg) { width: 70%; height: 70%; }
+  .badge {
+    background: white;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-1);
+  }
+  .badge :global(svg) {
+    width: 70%;
+    height: 70%;
+  }
 </style>
 ```
 
@@ -1467,7 +1823,9 @@ import { describe, it, expect, vi } from 'vitest';
 import LogoPicker from './LogoPicker.svelte';
 
 vi.mock('../lib/icons/registry', () => ({
-  search: vi.fn(async () => [{ id: 'github', setId: 'simple-icons', name: 'GitHub', keywords: ['github'] }]),
+  search: vi.fn(async () => [
+    { id: 'github', setId: 'simple-icons', name: 'GitHub', keywords: ['github'] }
+  ]),
   loadIconSvg: vi.fn(async () => '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1 1"/></svg>')
 }));
 
@@ -1507,12 +1865,22 @@ Expected: FAIL.
   import { search, loadIconSvg } from '../lib/icons/registry';
   import { svgToBadgeDataUrl } from './IconBadge.svelte';
 
-  let { value, onchange }: { value: LogoRef; onchange: (v: LogoRef, dataUrl: string | undefined, uploadBlob?: Blob) => void } = $props();
+  let {
+    value,
+    onchange
+  }: {
+    value: LogoRef;
+    onchange: (v: LogoRef, dataUrl: string | undefined, uploadBlob?: Blob) => void;
+  } = $props();
   let query = $state('');
   let results = $state<IconManifestEntry[]>([]);
 
-  async function runSearch(q: string) { results = await search(q, 60); }
-  $effect(() => { runSearch(query); });
+  async function runSearch(q: string) {
+    results = await search(q, 60);
+  }
+  $effect(() => {
+    runSearch(query);
+  });
 
   async function pick(entry: IconManifestEntry) {
     const svg = await loadIconSvg(entry.setId, entry.id);
@@ -1529,7 +1897,9 @@ Expected: FAIL.
     reader.readAsDataURL(file);
   }
 
-  function clear() { onchange({ kind: 'none' }, undefined, undefined); }
+  function clear() {
+    onchange({ kind: 'none' }, undefined, undefined);
+  }
 </script>
 
 <label>
@@ -1554,13 +1924,56 @@ Expected: FAIL.
 </div>
 
 <style>
-  label { display: flex; flex-direction: column; gap: 0.25rem; }
-  input[type="search"] { padding: 0.5rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-elev); color: var(--fg); min-height: 44px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.5rem; max-height: 280px; overflow-y: auto; margin: 0.5rem 0; }
-  .grid button { min-height: 44px; padding: 0.5rem; background: var(--surface-elev); color: var(--fg); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; text-align: left; }
-  .upload { display: flex; gap: 0.5rem; align-items: center; }
-  .upload-btn { display: inline-flex; align-items: center; padding: 0.5rem 1rem; background: var(--surface-elev); color: var(--fg); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; min-height: 44px; }
-  .upload-btn input { display: none; }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  input[type='search'] {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-elev);
+    color: var(--fg);
+    min-height: 44px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem;
+    max-height: 280px;
+    overflow-y: auto;
+    margin: 0.5rem 0;
+  }
+  .grid button {
+    min-height: 44px;
+    padding: 0.5rem;
+    background: var(--surface-elev);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: left;
+  }
+  .upload {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .upload-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--surface-elev);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .upload-btn input {
+    display: none;
+  }
 </style>
 ```
 
@@ -1581,9 +1994,11 @@ git commit -m "feat(logo): add IconBadge and searchable LogoPicker with upload"
 ## Task 13: QrPreview + downloads
 
 **Files:**
+
 - Create: `src/components/QrPreview.svelte`
 
 **Interfaces:**
+
 - Props: `data: string`, `options: QrOptions`, `logoDataUrl?: string | undefined`.
 - Renders the QR code and exposes "Download PNG" and "Download SVG" buttons.
 
@@ -1594,7 +2009,11 @@ git commit -m "feat(logo): add IconBadge and searchable LogoPicker with upload"
   import type { QrOptions } from '../lib/types';
   import { renderQr } from '../lib/qr/render';
 
-  let { data, options, logoDataUrl }: { data: string; options: QrOptions; logoDataUrl?: string | undefined } = $props();
+  let {
+    data,
+    options,
+    logoDataUrl
+  }: { data: string; options: QrOptions; logoDataUrl?: string | undefined } = $props();
   let svg = $state('');
   let pngBlob: (() => Promise<Blob>) | null = null;
   let error = $state<string | null>(null);
@@ -1620,7 +2039,9 @@ git commit -m "feat(logo): add IconBadge and searchable LogoPicker with upload"
   function download(name: string, blob: Blob) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = name; a.click();
+    a.href = url;
+    a.download = name;
+    a.click();
     setTimeout(() => URL.revokeObjectURL(url), 500);
   }
 
@@ -1646,11 +2067,37 @@ git commit -m "feat(logo): add IconBadge and searchable LogoPicker with upload"
 </div>
 
 <style>
-  .preview { display: grid; place-items: center; padding: 1rem; background: white; border: 1px solid var(--border); border-radius: var(--radius); min-height: 300px; }
-  .preview :global(svg) { max-width: 100%; height: auto; }
-  .actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-  button { min-height: 44px; padding: 0 1rem; background: var(--accent); color: white; border: none; border-radius: var(--radius); cursor: pointer; }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .preview {
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    min-height: 300px;
+  }
+  .preview :global(svg) {
+    max-width: 100%;
+    height: auto;
+  }
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  button {
+    min-height: 44px;
+    padding: 0 1rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 </style>
 ```
 
@@ -1670,10 +2117,12 @@ git commit -m "feat(preview): add live QrPreview with PNG/SVG download"
 ## Task 14: Wire everything into Generator + History pages
 
 **Files:**
+
 - Modify: `src/routes/Generator.svelte`, `src/routes/History.svelte`
 - Create: `src/components/HistoryList.svelte`
 
 **Interfaces:**
+
 - Consumes: encoders, render, storage, LogoPicker, forms, tabs, QrPreview.
 - Produces: complete user flow — generate, save, view history, delete.
 
@@ -1704,15 +2153,32 @@ git commit -m "feat(preview): add live QrPreview with PNG/SVG download"
   let logoDataUrl = $state<string | undefined>(undefined);
   let pendingLogoBlob: Blob | undefined;
 
-  const options: QrOptions = $state({ errorCorrection: 'M', size: 512, fgColor: '#111214', bgColor: '#ffffff', dotStyle: 'square' });
+  const options: QrOptions = $state({
+    errorCorrection: 'M',
+    size: 512,
+    fgColor: '#111214',
+    bgColor: '#ffffff',
+    dotStyle: 'square'
+  });
 
   const data = $derived.by(() => {
-    try { return encode(kind, payloads[kind]); } catch { return ''; }
+    try {
+      return encode(kind, payloads[kind]);
+    } catch {
+      return '';
+    }
   });
 
   async function saveEntry() {
     if (!data) return;
-    const entry: HistoryEntry = { id: ulid(), createdAt: Date.now(), kind, payload: payloads[kind], logo, options };
+    const entry: HistoryEntry = {
+      id: ulid(),
+      createdAt: Date.now(),
+      kind,
+      payload: payloads[kind],
+      logo,
+      options
+    };
     await save(entry, pendingLogoBlob);
     pendingLogoBlob = undefined;
   }
@@ -1720,24 +2186,66 @@ git commit -m "feat(preview): add live QrPreview with PNG/SVG download"
 
 <section class="grid">
   <div class="form">
-    <ContentTypeTabs kind={kind} onchange={(k) => (kind = k)} />
-    {#if kind === 'url'}<UrlForm value={payloads.url as any} onchange={(v) => (payloads.url = v)} />{/if}
-    {#if kind === 'wifi'}<WifiForm value={payloads.wifi as any} onchange={(v) => (payloads.wifi = v)} />{/if}
-    {#if kind === 'vcard'}<VCardForm value={payloads.vcard as any} onchange={(v) => (payloads.vcard = v)} />{/if}
-    {#if kind === 'whatsapp'}<WhatsAppForm value={payloads.whatsapp as any} onchange={(v) => (payloads.whatsapp = v)} />{/if}
+    <ContentTypeTabs {kind} onchange={(k) => (kind = k)} />
+    {#if kind === 'url'}<UrlForm
+        value={payloads.url as any}
+        onchange={(v) => (payloads.url = v)}
+      />{/if}
+    {#if kind === 'wifi'}<WifiForm
+        value={payloads.wifi as any}
+        onchange={(v) => (payloads.wifi = v)}
+      />{/if}
+    {#if kind === 'vcard'}<VCardForm
+        value={payloads.vcard as any}
+        onchange={(v) => (payloads.vcard = v)}
+      />{/if}
+    {#if kind === 'whatsapp'}<WhatsAppForm
+        value={payloads.whatsapp as any}
+        onchange={(v) => (payloads.whatsapp = v)}
+      />{/if}
     <h2>Logo</h2>
-    <LogoPicker value={logo} onchange={(v, dataUrl, blob) => { logo = v; logoDataUrl = dataUrl; pendingLogoBlob = blob; }} />
+    <LogoPicker
+      value={logo}
+      onchange={(v, dataUrl, blob) => {
+        logo = v;
+        logoDataUrl = dataUrl;
+        pendingLogoBlob = blob;
+      }}
+    />
     <button type="button" class="save" onclick={saveEntry} disabled={!data}>Save to history</button>
   </div>
   <div class="preview">
-    {#if data}<QrPreview {data} {options} {logoDataUrl} />{:else}<p>Enter content to generate a QR code.</p>{/if}
+    {#if data}<QrPreview {data} {options} {logoDataUrl} />{:else}<p>
+        Enter content to generate a QR code.
+      </p>{/if}
   </div>
 </section>
 
 <style>
-  .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-  @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } .preview { position: sticky; top: 5rem; } }
-  .save { min-height: 44px; padding: 0 1rem; margin-top: 1rem; background: var(--accent); color: white; border: none; border-radius: var(--radius); cursor: pointer; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .preview {
+      position: sticky;
+      top: 5rem;
+    }
+  }
+  .save {
+    min-height: 44px;
+    padding: 0 1rem;
+    margin-top: 1rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
 </style>
 ```
 
@@ -1766,14 +2274,23 @@ git commit -m "feat(preview): add live QrPreview with PNG/SVG download"
         const blob = await getLogoBlob(e.logo.blobId);
         if (blob) logoDataUrl = URL.createObjectURL(blob);
       }
-      const r = await renderQr({ data: encode(e.kind, e.payload), options: e.options, logoDataUrl });
+      const r = await renderQr({
+        data: encode(e.kind, e.payload),
+        options: e.options,
+        logoDataUrl
+      });
       svgs[e.id] = r.svg;
     }
   }
 
-  async function del(id: string) { await remove(id); await refresh(); }
+  async function del(id: string) {
+    await remove(id);
+    await refresh();
+  }
 
-  $effect(() => { refresh(); });
+  $effect(() => {
+    refresh();
+  });
 </script>
 
 <ul>
@@ -1790,12 +2307,44 @@ git commit -m "feat(preview): add live QrPreview with PNG/SVG download"
 </ul>
 
 <style>
-  ul { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-  li { padding: 1rem; background: var(--surface-elev); border: 1px solid var(--border); border-radius: var(--radius); }
-  .qr :global(svg) { width: 100%; height: auto; }
-  .meta { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.875rem; }
-  button { min-height: 44px; padding: 0 0.75rem; background: transparent; color: var(--danger); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
-  .empty { grid-column: 1 / -1; color: var(--muted); text-align: center; }
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  li {
+    padding: 1rem;
+    background: var(--surface-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .qr :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+  }
+  button {
+    min-height: 44px;
+    padding: 0 0.75rem;
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  .empty {
+    grid-column: 1 / -1;
+    color: var(--muted);
+    text-align: center;
+  }
 </style>
 ```
 
@@ -1833,9 +2382,11 @@ git commit -m "feat(app): wire Generator and History pages end-to-end"
 ## Task 15: E2E test (Playwright)
 
 **Files:**
+
 - Create: `playwright.config.ts`, `tests/e2e/generate-and-save.spec.ts`
 
 **Interfaces:**
+
 - Consumes: fully wired app.
 - Produces: one green Playwright test proving the golden path.
 
@@ -1903,6 +2454,7 @@ git commit -m "test(e2e): add Playwright golden-path spec"
 ## Task 16: CI workflow
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 
 **Interfaces:** none.
@@ -1948,7 +2500,15 @@ Create `eslint.config.js`:
 ```js
 import svelte from 'eslint-plugin-svelte';
 export default [
-  { ignores: ['dist/', 'node_modules/', 'playwright-report/', 'src/lib/icons/svg/', 'src/lib/icons/manifest.generated.json'] },
+  {
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'playwright-report/',
+      'src/lib/icons/svg/',
+      'src/lib/icons/manifest.generated.json'
+    ]
+  },
   ...svelte.configs['flat/recommended']
 ];
 ```
@@ -1956,7 +2516,12 @@ export default [
 Create `.prettierrc`:
 
 ```json
-{ "singleQuote": true, "trailingComma": "none", "printWidth": 100, "plugins": ["prettier-plugin-svelte"] }
+{
+  "singleQuote": true,
+  "trailingComma": "none",
+  "printWidth": 100,
+  "plugins": ["prettier-plugin-svelte"]
+}
 ```
 
 - [ ] **Step 3: Verify locally**
@@ -1976,6 +2541,7 @@ git commit -m "ci: add PR/main pipeline running lint, tests, and E2E"
 ## Task 17: Deploy workflow + README
 
 **Files:**
+
 - Create: `.github/workflows/deploy.yml`
 - Modify: `README.md`
 
@@ -2017,7 +2583,7 @@ jobs:
 
 - [ ] **Step 2: Expand `README.md`**
 
-```markdown
+````markdown
 # QR Code Generator
 
 A static, client-only QR code generator with a logo library, IndexedDB history, and light/dark themes.
@@ -2040,6 +2606,7 @@ npm test               # unit + component tests
 npm run test:e2e       # Playwright smoke test
 npm run build          # produces dist/ (VITE_BASE=/ by default)
 ```
+````
 
 ## Deployment
 
@@ -2054,14 +2621,15 @@ MIT — see `LICENSE`.
 
 - Spec: `docs/superpowers/specs/2026-09-10-qrcode-generator-design.md`
 - Plan: `docs/superpowers/plans/2026-09-10-qrcode-generator.md`
-```
+
+````
 
 - [ ] **Step 3: Commit**
 
 ```bash
 git add .github/workflows/deploy.yml README.md
 git commit -m "ci: add gh-pages deploy workflow and expand README"
-```
+````
 
 - [ ] **Step 4: Final verification**
 

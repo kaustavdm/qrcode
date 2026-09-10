@@ -43,28 +43,28 @@ the browser. No WebAssembly (see §3 for rationale).
 - WebAssembly. QR encoding is small enough that pure JS is
   materially faster to build and ship (see §3).
 - Bulk / batch generation.
-- QR *scanning* / decoding (only generation).
+- QR _scanning_ / decoding (only generation).
 - Advanced styling: gradient dots, custom module shapes beyond
   square/rounded/dots. Can be revisited later.
 - Cross-device history sync.
 
 ## 3. Technology decisions
 
-| Concern | Choice | Alternatives considered |
-|---|---|---|
-| UI framework | Svelte 5 (runes) | React, Vue, Solid |
-| Build tool | Vite (uses Rollup internally for prod build) | Rollup direct, Webpack |
-| Language | TypeScript (strict) | JavaScript |
-| QR encoder | `qr-code-styling` (MIT) | `qrcode` (soldair), Rust `fast_qr` via WASM |
-| Storage | IndexedDB via `idb-keyval` | localStorage, IndexedDB direct |
-| Icon libraries | `@twilio-paste/icons` (raw SVG source) + `simple-icons` | Lucide, Heroicons, Tabler |
-| Router | `svelte-spa-router` (hash routing) | SvelteKit, page.js |
-| Package manager | npm | pnpm, bun |
-| Unit tests | Vitest | Jest |
-| Component tests | `@testing-library/svelte` | Svelte Testing Library only |
-| E2E tests | Playwright | Cypress |
-| License | MIT | — |
-| Hosting | GitHub Pages via `peaceiris/actions-gh-pages@v4` | Netlify, Vercel, GitHub Pages via built-in `actions/deploy-pages` |
+| Concern         | Choice                                                  | Alternatives considered                                           |
+| --------------- | ------------------------------------------------------- | ----------------------------------------------------------------- |
+| UI framework    | Svelte 5 (runes)                                        | React, Vue, Solid                                                 |
+| Build tool      | Vite (uses Rollup internally for prod build)            | Rollup direct, Webpack                                            |
+| Language        | TypeScript (strict)                                     | JavaScript                                                        |
+| QR encoder      | `qr-code-styling` (MIT)                                 | `qrcode` (soldair), Rust `fast_qr` via WASM                       |
+| Storage         | IndexedDB via `idb-keyval`                              | localStorage, IndexedDB direct                                    |
+| Icon libraries  | `@twilio-paste/icons` (raw SVG source) + `simple-icons` | Lucide, Heroicons, Tabler                                         |
+| Router          | `svelte-spa-router` (hash routing)                      | SvelteKit, page.js                                                |
+| Package manager | npm                                                     | pnpm, bun                                                         |
+| Unit tests      | Vitest                                                  | Jest                                                              |
+| Component tests | `@testing-library/svelte`                               | Svelte Testing Library only                                       |
+| E2E tests       | Playwright                                              | Cypress                                                           |
+| License         | MIT                                                     | —                                                                 |
+| Hosting         | GitHub Pages via `peaceiris/actions-gh-pages@v4`        | Netlify, Vercel, GitHub Pages via built-in `actions/deploy-pages` |
 
 **On WebAssembly.** The user's brief mentioned WASM. Rationale for
 dropping it:
@@ -73,8 +73,8 @@ dropping it:
   GF(256) on at most ~3 KB of input). Mature JS encoders complete a
   single encode in under 10 ms on a mid-range phone.
 - A WASM module (`fast_qr` or similar) adds ~50–80 KB baseline (glue
-  + module), asynchronous instantiation, and a Rust build step in CI.
-  Nothing in this app's workload repays that cost.
+  - module), asynchronous instantiation, and a Rust build step in CI.
+    Nothing in this app's workload repays that cost.
 - Confirmed with the user: WASM is out.
 
 **On `qr-code-styling`.** It handles center-logo embedding
@@ -179,7 +179,7 @@ export type VCardPayload = {
 };
 
 export type WhatsAppPayload = {
-  phone: string;    // E.164, digits only (no '+' when embedded in wa.me)
+  phone: string; // E.164, digits only (no '+' when embedded in wa.me)
   message?: string; // user-typed, URL-encoded at build time
 };
 
@@ -188,19 +188,19 @@ export type Payload = UrlPayload | WifiPayload | VCardPayload | WhatsAppPayload;
 export type LogoRef =
   | { kind: 'none' }
   | { kind: 'library'; setId: 'paste' | 'simple-icons'; iconId: string }
-  | { kind: 'upload'; blobId: string };  // key into IDB blob store
+  | { kind: 'upload'; blobId: string }; // key into IDB blob store
 
 export type QrOptions = {
   errorCorrection: 'L' | 'M' | 'Q' | 'H';
-  size: number;                              // px, default 512
-  fgColor: string;                           // default #111214, user-overridable
-  bgColor: string;                           // default #ffffff, always white regardless of app theme (older scanners struggle with inverted codes)
+  size: number; // px, default 512
+  fgColor: string; // default #111214, user-overridable
+  bgColor: string; // default #ffffff, always white regardless of app theme (older scanners struggle with inverted codes)
   dotStyle: 'square' | 'rounded' | 'dots';
 };
 
 export type HistoryEntry = {
-  id: string;             // ULID
-  createdAt: number;      // ms since epoch
+  id: string; // ULID
+  createdAt: number; // ms since epoch
   kind: ContentKind;
   payload: Payload;
   logo: LogoRef;
@@ -208,10 +208,10 @@ export type HistoryEntry = {
 };
 
 export type IconManifestEntry = {
-  id: string;             // slug, unique within setId
+  id: string; // slug, unique within setId
   setId: 'paste' | 'simple-icons';
-  name: string;           // human-readable label
-  keywords: string[];     // for search
+  name: string; // human-readable label
+  keywords: string[]; // for search
   // Note: SVG body is NOT stored here — it is fetched lazily from
   // src/lib/icons/svg/<setId>/<id>.svg via import.meta.glob.
 };
@@ -326,10 +326,10 @@ getLogoBlob(blobId: string): Promise<Blob | undefined>
   --border: #e3e5e8;
   --danger: #d94141;
   --radius: 10px;
-  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
-[data-theme="dark"] {
+[data-theme='dark'] {
   --bg: #0b0d10;
   --surface: #14171b;
   --surface-elev: #1a1e23;
@@ -338,7 +338,7 @@ getLogoBlob(blobId: string): Promise<Blob | undefined>
   --accent: #6ea8ff;
   --border: #262a30;
   --danger: #ff6b6b;
-  --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.3);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 ```
 
@@ -392,6 +392,7 @@ with `mode: 'system' | 'light' | 'dark'`; on change it writes
 **E2E (Playwright, one spec):**
 
 `tests/e2e/generate-and-save.spec.ts`:
+
 1. Open `/`.
 2. Enter a URL in the URL form.
 3. Open the logo picker, search "github", pick the Simple Icons
@@ -447,14 +448,14 @@ Dev deps:
 
 ## 14. Risks and mitigations
 
-| Risk | Mitigation |
-|---|---|
-| `qr-code-styling` internals produce a different DOM than tests assume | Test the public output (SVG string / PNG blob), not the DOM shape. |
-| Simple Icons brand marks rendered directly on a QR background hurt scannability | `IconBadge` always draws the icon on a solid circular badge; error correction forced to `H`. |
-| gh-pages 404 on deep-linked routes | Hash router + `404.html` copy of `index.html`. |
-| Twilio Paste package publishes React-only in a future version | Pin the version in `package.json`; the build script reads raw SVGs from a stable subpath — if that path moves, the build script fails loudly with a clear message. |
-| Icon manifest grows so large that fetching it becomes noticeable | If manifest exceeds ~150 KB gzipped, switch to per-set manifests fetched only when the corresponding tab is opened. |
-| iOS Safari IndexedDB quirks | `idb-keyval` is battle-tested across Safari. CI runs Chromium only for speed; add a WebKit Playwright project locally before any release we care about. |
+| Risk                                                                            | Mitigation                                                                                                                                                         |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `qr-code-styling` internals produce a different DOM than tests assume           | Test the public output (SVG string / PNG blob), not the DOM shape.                                                                                                 |
+| Simple Icons brand marks rendered directly on a QR background hurt scannability | `IconBadge` always draws the icon on a solid circular badge; error correction forced to `H`.                                                                       |
+| gh-pages 404 on deep-linked routes                                              | Hash router + `404.html` copy of `index.html`.                                                                                                                     |
+| Twilio Paste package publishes React-only in a future version                   | Pin the version in `package.json`; the build script reads raw SVGs from a stable subpath — if that path moves, the build script fails loudly with a clear message. |
+| Icon manifest grows so large that fetching it becomes noticeable                | If manifest exceeds ~150 KB gzipped, switch to per-set manifests fetched only when the corresponding tab is opened.                                                |
+| iOS Safari IndexedDB quirks                                                     | `idb-keyval` is battle-tested across Safari. CI runs Chromium only for speed; add a WebKit Playwright project locally before any release we care about.            |
 
 ## 15. Definition of done
 

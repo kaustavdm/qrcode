@@ -10,3 +10,5 @@ test-results/
 src/lib/icons/manifest.generated.json
 src/lib/icons/svg/
 .superpowers/
+.remember/
+.claude/
